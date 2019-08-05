@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div class="row " style="margin-top:50px">
+    <div class="col-md-3 col-md-offset-4">
+        <form>
+            <div class="form-group">
+                <label for="Machine">Machine</label>
+                <input type="text" disabled value="M-CUTTING-001" class="form-control" id="Machine" placeholder="Machine">
+            </div>
+            <div class="form-group">
+                <label for="cycletime">Cycle Time</label>
+                <input type="text" disabled class="form-control" id="cycletime" placeholder="cycletime">
+            </div>
+            <div class="form-group">
+                <label for="time">Time Rev CycleTime</label>
+                <input type="text" disabled class="form-control" id="time" placeholder="time">
+            </div>
+        </form>
+    </div>
+</div>
+@section scripts{
+
+    <script>
+        $(function () {
+            //LoadData();
+        });
+        var LoadData = function () {
+            $.ajax({
+                url: '/Home/LoadData/',
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/json; charset=utf-8',
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    console.log(data);
+                    $("#cycletime").val(obj[0].RealTimeCycleTime);
+                    var d = new Date(obj[0].TimeRevCycleTime); 
+                    $("#time").val(d.toLocaleString("en-GB"));
+
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+        }
+        setInterval(LoadData, 1600)
+    </script>
+}

@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Devices";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <h2> Devices List</h2>
+    <div class="devices" data-example-id="devices">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Option</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Arduino 1</td>
+                    <td>
+                        @Html.ActionLink("Click", "Detail", "Factory", null, new { @class = "btn btn-success" })
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Arduino 2</td>
+                    <td> @Html.ActionLink("Click", "Detail", "Factory", null, new { @class = "btn btn-success" })</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Arduino 3</td>
+                    <td> @Html.ActionLink("Click", "Detail", "Factory", null, new { @class = "btn btn-success" })</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+

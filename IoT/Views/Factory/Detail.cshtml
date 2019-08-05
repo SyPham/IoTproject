@@ -1,0 +1,332 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detail</h2>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card card-default">
+            <div class="card-body">
+                <ul class="list">
+                    <li>
+                        Machine ID:
+                    </li>
+                    <li>
+                        Machine name:
+                    </li>
+                    <li>
+                        Model no: ABCDE
+                    </li>
+                    <li>
+                        Line: L1
+                    </li>
+                    <li>
+                        Worker ID:
+                    </li>
+                    <li>
+                        Worker name:
+                    </li>
+                    <li>
+                        Leader ID:
+                    </li>
+                    <li>
+                        Leader name:
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-md-3">
+        <div class="card card-default">
+            <div class="card-body">
+                <ul class="list">
+
+                    <li>
+                        Date time: @DateTime.Now
+                    </li>
+                    <li>
+                        Operation ID: XCDDFSFSF
+                    </li>
+                    <li>
+                        Operation name: Cutting
+                    </li>
+                    <li style="list-style:none!important">
+                        <br />
+                    </li>
+                    <li class="btn btn-success">
+                        Standard CT: <span style="font-weight:bold"> 25 (seconds)</span>
+                    </li>
+                    <li class="btn btn-success">
+                        AVG CT: <span style="font-weight:bold" id="avg"> 25 </span>
+                    </li>
+                    <li>
+                        Best CT: <span id="bestCT" style="color:#00ff21; font-weight:bold"> 25 </span>
+                    </li>
+                    <li>
+                        Real CT: <span id="realCT" class="realCT" style=" font-weight:bold"> 25 </span>
+                    </li>
+                    <li>
+                        Availability: <span id="availability" style="color:#00ffff; font-weight:bold"> 25 </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card card-default">
+            <div class="card-body">
+                <ul class="list">
+                    <li>
+                        Components:
+                    </li>
+                    <li>
+                        1.Aasasas
+                    </li>
+                    <li>
+                        2.asasasa
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card card-default">
+            <div class="card-body">
+                <ul class="list">
+                    <li>
+                        Estimate daily output: 1107 ps.
+                    </li>
+                    <li>
+                        Estimate best daily output:1309 ps.
+
+                    </li>
+                    <li>
+                        Estimate daily balance: 202 ps.
+
+                    </li>
+                    <li>
+                        Daily Output by now: 670 ps.
+
+                    </li>
+                    <li style="list-style:none!important">
+                        <br />
+                    </li>
+                    <li>
+                        Estimate hourly output: 138.46 ps.
+                    </li>
+                    <li>
+                        Estimate best hourly output: 163.6 ps.
+                    </li>
+                    <li>
+                        Estimate  hourly balance: 25 ps.
+                    </li>
+                    <li>
+                        Hourly Output by now: 67 ps.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="chart">
+            <canvas id="lineChart"></canvas>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="chart">
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+
+</div>
+<div class="row" style="margin-top:20px">
+    <div class="col-md-6">
+        <div class="col-md-4">
+
+            <button class="btn btn-primary">Show SOP</button>
+        </div>
+        <div class="col-md-4">
+
+            <button class="btn btn-primary"> Extract reliort</button>
+        </div>
+        <div class="col-md-4">
+
+            <button class="btn btn-primary">Subscribe</button>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="card card-default">
+                    <div class="card-body">
+                        <ul class="list">
+                            <li>
+                                Analysis:
+                            </li>
+                            <li>
+                                1.Steli 2 is under 1 sec of  the standard time .
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary" style="display:block;width:100%; height:80px">
+                    <i class="glyphicon glyphicon-thumbs-up" style="font-size:40px"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script>
+        $(function () {
+            LoadData();
+            var ctx1 = document.getElementById('barChart');
+            var stackedBar = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['1.loading', '2.adjustment', '3.cut', '4.unloading'],
+                    datasets: [{
+                        label: 'Operation CT Trend chart',
+                        data: [5, 8, 6, 6],
+                        fill: "#ffffff",
+                        borderWidth: 2,
+
+                        borderColor: "#06b9dd",
+
+                        backgroundColor: "#fff",
+
+                        pointBackgroundColor: "#06b9dd"
+
+                    }],
+
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            stacked: true
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+            });
+
+
+            var ctx = document.getElementById('lineChart');
+
+            ctx.height = 180;
+            Chart.defaults.global.defaultFontSize = 16;
+
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['100', '101', '102', '103'],
+                    datasets: [{
+                        label: 'Operation CT Trend chart',
+                        data: [60, 18, 16, 26],
+                        fill: "#ffffff",
+                        borderWidth: 2,
+
+                        borderColor: "#06b9dd",
+
+                        backgroundColor: "#06b9dd",
+
+                        pointBackgroundColor: "#06b9dd"
+
+                    }],
+
+                },
+                options: {
+                    plugins: {
+                        datalabels: {
+                            display: false
+                        }
+                    },
+                    elements: {
+                        line: {
+                            tension: 0
+                        }
+
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    hover: {
+                        animationDuration: 0
+                    },
+                    animation: {
+                        duration: 1,
+                        onComplete: function () {
+                            var chartInstance = this.chart,
+                                ctx = chartInstance.ctx;
+
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+
+                            this.data.datasets.forEach(function (dataset, i) {
+                                var meta = chartInstance.controller.getDatasetMeta(i);
+                                meta.data.forEach(function (bar, index) {
+                                    var data = dataset.data[index];
+                                    ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                                });
+                            });
+                        }
+                    },
+                    tooltips: {
+                        enabled: false
+                    },
+                }
+            });
+
+        })
+        var LoadData = function () {
+            $.ajax({
+                url: '/Factory/LoadData',
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/json; charset=utf-8',
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    console.log(obj);
+                    $("#bestCT").text(obj.MinRealTime + " (seconds)");
+                    $("#avg").text(obj.AverageTimeCycleTime + " (seconds)");
+                    if (obj.RealTimeCycleTime > 25) {
+                        $(".realCT").addClass("red");
+                        $(".realCT").text(obj.RealTimeCycleTime + " (seconds)");
+                    }
+                    else {
+                        $(".realCT").removeClass("red");
+                         $(".realCT").text(obj.RealTimeCycleTime + " (seconds)");
+                    }
+                     
+                    $("#availability").text(obj.Availability + " %");
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+        }
+        setInterval(LoadData, 500);
+
+    </script>
+}
